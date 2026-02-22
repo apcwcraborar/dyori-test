@@ -4,7 +4,7 @@
       <h1>My Portfolio</h1>
     </header>
 
-    <Profile />
+    <Profile v-if="profileId" />
     <Comments v-if="profileId" :profile-id="profileId" />
 
     <footer class="app-footer">
