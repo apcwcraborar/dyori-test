@@ -1,14 +1,16 @@
-// frontend/src/services/api.ts
-const BASE_URL = import.meta.env.VITE_API_URL; // <-- must be defined in Vercel env
+import axios from 'axios';
 
-if (!BASE_URL) {
-  console.error('VITE_API_URL is not defined. Set it in Vercel → Project → Settings → Environment Variables.');
-}
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
 
-export async function getProfile() {
-  const res = await fetch(`${BASE_URL}/profile`, {
-    headers: { 'Accept': 'application/json' },
-  });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  return res.json();
-}
+const api = axios.create({
+  baseURL: API_URL,
+});
+
+export const profileAPI = {
+  getProfile: () => api.get('/profile'),
+  getComments: (profileId: string) => api.get(`/comments?profile_id=${profileId}`),
+  createComment: (data: any) => api.post('/comments', data),
+  deleteComment: (id: number) => api.delete(`/comments/${id}`),
+};
+
+export default api;
