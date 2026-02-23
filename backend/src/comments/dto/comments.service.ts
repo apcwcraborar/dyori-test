@@ -7,37 +7,61 @@ export class CommentsService {
   constructor(private supabaseService: SupabaseService) {}
 
   async findAll(profileId: string) {
-    const { data, error } = await this.supabaseService
-      .getClient()
-      .from('comments')
-      .select('*')
-      .eq('profile_id', profileId)
-      .order('created_at', { ascending: false })
+    try {
+      const { data, error } = await this.supabaseService
+        .getClient()
+        .from('comments')
+        .select('*')
+        .eq('profile_id', profileId)
+        .order('created_at', { ascending: false });
 
-    if (error) throw new Error(error.message);
-    return data;
+      if (error) {
+        console.error('Supabase error in findAll:', error);
+        throw new Error(error.message);
+      }
+      return data || [];
+    } catch (err) {
+      console.error('Error in findAll:', err);
+      throw err;
+    }
   }
 
   async create(createCommentDto: CreateCommentDto) {
-    const { data, error } = await this.supabaseService
-      .getClient()
-      .from('comments')
-      .insert([createCommentDto])
-      .select('*');
+    try {
+      const { data, error } = await this.supabaseService
+        .getClient()
+        .from('comments')
+        .insert([createCommentDto])
+        .select('*');
 
-    if (error) throw new Error(error.message);
-    return data;
+      if (error) {
+        console.error('Supabase error in create:', error);
+        throw new Error(error.message);
+      }
+      return data;
+    } catch (err) {
+      console.error('Error in create:', err);
+      throw err;
+    }
   }
 
   async remove(id: number) {
-    const { data, error } = await this.supabaseService
-      .getClient()
-      .from('comments')
-      .delete()
-      .eq('id', id)
-      .select();
+    try {
+      const { data, error } = await this.supabaseService
+        .getClient()
+        .from('comments')
+        .delete()
+        .eq('id', id)
+        .select();
 
-    if (error) throw new Error(error.message);
-    return data;
+      if (error) {
+        console.error('Supabase error in remove:', error);
+        throw new Error(error.message);
+      }
+      return data;
+    } catch (err) {
+      console.error('Error in remove:', err);
+      throw err;
+    }
   }
 }
