@@ -12,7 +12,7 @@ export class CommentsService {
       .from('comments')
       .select('*')
       .eq('profile_id', profileId)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
 
     if (error) throw new Error(error.message);
     return data;
