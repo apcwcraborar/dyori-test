@@ -27,6 +27,7 @@ export class CommentsService {
 
   async create(createCommentDto: CreateCommentDto) {
     try {
+      console.log('Creating comment with data:', createCommentDto);
       const { data, error } = await this.supabaseService
         .getClient()
         .from('guestbook_entries')
@@ -37,6 +38,7 @@ export class CommentsService {
         console.error('Supabase error in create:', error);
         throw new Error(error.message);
       }
+      console.log('Comment created successfully:', data);
       return data;
     } catch (err) {
       console.error('Error in create:', err);

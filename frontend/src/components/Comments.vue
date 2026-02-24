@@ -14,6 +14,7 @@
           <strong>{{ comment.author_name }}</strong>
           <span class="comment-date">{{ formatDate(comment.created_at) }}</span>
         </div>
+        <p class="comment-message">{{ comment.message }}</p>
       </div>
     </div>
   </div>

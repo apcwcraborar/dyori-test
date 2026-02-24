@@ -15,7 +15,7 @@
 
     <div class="form-group">
       <input
-        v-model="formData.author_email"
+        v-model="formData.email"
         type="email"
         placeholder="Your Email"
         required
@@ -51,7 +51,7 @@ const emit = defineEmits<{
 
 const formData = ref({
   author_name: '',
-  author_email: '',
+  email: '',
   message: '',
 });
 
@@ -63,11 +63,14 @@ const submitComment = async () => {
   loading.value = true;
 
   try {
+    console.log('Sending comment data:', formData.value);
     const response = await profileAPI.createComment(formData.value);
+    console.log('Comment response:', response);
 
     emit('comment-added', response.data[0]);
-    formData.value = { author_name: '', author_email: '', message: '' };
+    formData.value = { author_name: '', email: '', message: '' };
   } catch (err: any) {
+    console.error('Comment error:', err.response?.data || err.message);
     error.value = 'Failed to post comment. Please try again.';
   } finally {
     loading.value = false;
